@@ -1,0 +1,85 @@
+大括号拓展：
+    l{a,b,c{,bak}.txt 表示 la.txt, lb.txt, lc.txt, lc.bak.txt
+
+G++ 环境变量：
+    CPATH/C_INCLUDE_PATH 逗号分隔，头文件搜索位置
+    LIBRARY_PATH 逗号分隔，寻找链接库（动态和静态）的位置
+    LD_LIBRARY_PATH 逗号分隔，运行时搜索动态链接库的位置
+    TMPATH 编译过程中的临时文件目录
+    ldd a.out 可查看可执行文件 a.out 所依赖的动态链接库情况
+
+G++ 编译选项：
+     -Wall 提示所有warning
+     -O0/1/2/3 没有优化/基础优化/高级优化/最高优化
+
+screen 使用：
+    screen -S myname 创建一个名为 myname 的 screen session
+    screen vi david.txt 创建一个执行vi david.txt的单窗口会话，退出vi 将退出该窗口/会话
+    screen -ls 列车当前所有 seesion
+    screen -r myname 回到 myname 这个 session
+    screen -d myname 远程 detach myname 这个 session
+    screen -d -r myname 结束当前 session 并回到 myname 这个 session
+    C-a c 创建一个新的窗口
+    C-a p/n 上一个/下一个窗口
+    C-a 0/1/.../9 进入第一/二/.../九个窗口
+    C-a d detach 当前窗口
+    C-a x 锁定当前窗口
+
+Linux svn 服务器搭建：
+    安装：yum install subversion
+    创建版本库：svnadmin create your/svn/root/director
+    配置：修改 your/svn/root/dircetor/conf 文件夹下 svnsever.conf，passw，authz 等文件
+    配置 svnserve.conf：
+          [general]
+          anon-access = read
+          auth-access = write
+          password-db = passwd
+          authz-db = authz
+    配置 passwd：
+          [users]
+          user1 = passwd1
+    配置 authz：
+          [/]
+          user1 = rw
+    启动：svnserver -d -r your/svn/root/director
+    测试：svn co svn://your.host.name
+
+Windows svn 服务器搭建：
+    使用 VisualSVN Server
+    下载：https://www.visualsvn.com
+
+svn 使用：
+    svn delete --keep-local file_to_delete：取消 svn 文件关联但不删除本地文件
+    svn up -r 11：回退到历史版本11
+    svn diff -r 11:head：比较版本11和当前版本的差别
+    svn ci -m "you check in info" file1 file2：只上传文件 file1 和 file2
+
+ssh 免密登录：
+     ssh-keygen 生成公钥私钥，输入存放地点和密码（可以为空）
+     执行 eval "$(ssh-agent -s)"，让 ssh-agent 在后台运行
+     执行 ssh-add ~/.ssh/id_rsa，添加生成的 key 到 ssh-agent
+     复制 is_rsa.pub 到目标机器 .ssh/authorized_keys 中
+     更改目标机器 .ssh 文件夹的权限为700，.ssh/authorized_keys 文件的权限为600
+
+杀死进程：
+     kill pid 杀死进程号为 pid 的进程
+     pkill pattern 杀死进程名匹配 pattern 的所有进程，相当于pgrep+kill
+     killall name 杀死进程名为 name 的所有进程
+     -w 等待进程死亡
+     -9 迫使进程在运行时突然终止，进程在结束后不能自我清理，危害是导致系统资源无法正常释放，一般不推荐使用
+
+变量替换：
+     ${var:-word} 如果变量 var 为空或已被删除(unset)，那么返回 word，但不改变 var 的值。
+     ${var:=word} 如果变量 var 为空或已被删除(unset)，那么返回 word，并将 var 的值设置为 word。
+     ${var:?message} 如果变量 var 为空或已被删除(unset)，那么将消息 message 送到标准错误输出，可以用来检测变量 var 是否可以被正常赋值。若此替换出现在Shell脚本中，那么脚本将停止运行。
+     ${var:+word} 如果变量 var 被定义，那么返回 word，但不改变 var 的值。
+
+git 使用：
+     git checkout -b branch1 创建分支并切换到 branch1
+     git checkout branch1 切换到 branch1
+     git branch -d branch1 删除分支 branch1
+     git commit -m "info" 本地提交
+     git pull origin branch1 远程拉取 origin 服务器上的 branch1 分支
+     git push <origin> <branch1> 远程提交 origin（如果不指定则为所有）服务器上的 branch1（如果不指定则为所有）分支
+     git diff branch1 branch2 查看 branch1 和 branch2 的 diff
+执行。。。。。。。。。。。。。。。。。
